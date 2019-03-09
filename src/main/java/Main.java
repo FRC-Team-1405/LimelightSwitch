@@ -10,7 +10,7 @@
 import edu.wpi.cscore.MjpegServer;
 import edu.wpi.cscore.HttpCamera;
 //import edu.wpi.cscore.UsbCamera; Keep for future evelopment
-import edu.wpi.cscore.VideoSource;// Keep for pipeline
+//import edu.wpi.cscore.VideoSource;// Keep for pipeline
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.vision.VisionPipeline;
@@ -46,10 +46,7 @@ public final class Main {
   /**
    * Start running the camera
    */
-  public static VideoSource startCamera(CameraConfig config) {
-    System.out.println("Starting camera '" + config.name + "' on " + config.path);
-    CameraServer inst = CameraServer.getInstance();
-    return camera;
+  public static void startCamera() {
     
   }
 
@@ -80,6 +77,9 @@ public final class Main {
     NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
       System.out.println("Setting up NetworkTables client for team " + team);
       ntinst.startClientTeam(team);
+
+      //Start cameras
+      startCamera();
 
    /* if (cameras.size() >= 1) { //keep for pipeline
       VisionThread visionThread = new VisionThread(cameras.get(0),
