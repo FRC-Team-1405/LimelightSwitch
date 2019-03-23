@@ -90,7 +90,8 @@ public final class Main {
 
     // start NetworkTables
     NetworkTableInstance ntinst = NetworkTableInstance.getDefault();
-      ntinst.startClientTeam(team);
+     // ntinst.startClientTeam(team); //use for roborio
+     ntinst.startClient("robotics01"); // use with non roborio networktables server
 
       //Start cameras
       startCamera();

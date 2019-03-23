@@ -36,7 +36,7 @@ public final class CameraData {
     static final int UsbCamWidth=160;
     static final int UsbCamHeight=120;
     static final int fps=15;
-
+    static final String serverName ="robotics01";
     
   }
 
