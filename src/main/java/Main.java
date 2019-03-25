@@ -8,7 +8,7 @@
 
 
 //import edu.wpi.cscore.MjpegServer;
-//import edu.wpi.cscore.HttpCamera;
+import edu.wpi.cscore.HttpCamera;
 import edu.wpi.cscore.UsbCamera; //Keep for future evelopment
 //import edu.wpi.cscore.VideoSource;// Keep for pipeline
 import edu.wpi.first.cameraserver.CameraServer;
@@ -35,11 +35,15 @@ public final class Main {
 
   public static int team=CameraData.Rp3.teamName;
   public static CameraServer inst = CameraServer.getInstance();
- // public static HttpCamera camera0 =new HttpCamera(CameraData.Rp3.cameraStreamName,CameraData.Limelight_Front.path);
+  //public static HttpCamera camera0 =new HttpCamera(CameraData.Rp3.cameraStreamName,CameraData.Limelight_Front.path);
  // public static HttpCamera camera1 =new HttpCamera(CameraData.Rp3.cameraStreamName,CameraData.Limelight_Back.path);
+ // static String camerasType="HTTP Cameras";
+
+
                // Get the UsbCamera from CameraServer
                static UsbCamera camera0 = CameraServer.getInstance().startAutomaticCapture(0); // **** GRIP
                static UsbCamera camera1 = CameraServer.getInstance().startAutomaticCapture(1); // **** GRIP
+               static String camerasType="USB Cameras";
                // Get a CvSink. This will capture Mats from the camera
                static CvSink cvSink0 = CameraServer.getInstance().getVideo(camera0); // **** GRIP
                static CvSink cvSink1 = CameraServer.getInstance().getVideo(camera1); // **** GRIP
@@ -62,6 +66,13 @@ public final class Main {
    * Start running the camera
    */
   public static void startCamera() {
+    SmartDashboard.putString(CameraData.Rp3.camerasTypeName, camerasType);
+    
+    camera0.setResolution(CameraData.Rp3.UsbCamWidth, CameraData.Rp3.UsbCamHeight);
+    camera1.setResolution(CameraData.Rp3.UsbCamWidth, CameraData.Rp3.UsbCamHeight);
+    camera0.setFPS(CameraData.Rp3.fps);
+    camera1.setFPS(CameraData.Rp3.fps);
+    outputStream.setFPS(CameraData.Rp3.fps);
     
   }
 
@@ -112,11 +123,6 @@ public final class Main {
 
     
                 // Set the resolution and frames per second
-                camera0.setResolution(CameraData.Rp3.UsbCamWidth, CameraData.Rp3.UsbCamHeight);
-                camera1.setResolution(CameraData.Rp3.UsbCamWidth, CameraData.Rp3.UsbCamHeight);
-                camera0.setFPS(CameraData.Rp3.fps);
-                camera1.setFPS(CameraData.Rp3.fps);
-                outputStream.setFPS(CameraData.Rp3.fps);
                 
 
     // loop forever
@@ -131,9 +137,6 @@ public final class Main {
           if (isCvSink0) {
             // Send the output the error.
             outputStream.notifyError(cvSink0.getError());
-          }else {
-            // Place image processing here for camera #0
-
           }
         }else{
           SmartDashboard.putString(CameraData.Rp3.cameraSelectID, CameraData.Limelight_Back.name);
@@ -144,15 +147,19 @@ public final class Main {
             // Send the output the error.
             outputStream.notifyError(cvSink1.getError());
           
-        }else {
-          // Place image processing here for camera #1
+        }
+        }
+      }
+      if(cameraSelection){
+        isCvSink0=(cvSink0.grabFrame(mat)==0);
 
-        }
-        }
-        
+      }else{
+        isCvSink0=(cvSink1.grabFrame(mat)==0);
+
       }
       if (!isCvSink0){ // skip on error
         // Place image processing here for both cameras
+
         // Put a rectangle on the image
         //Imgproc.rectangle(mat, new Point(25, 50), new Point(100, 100), scalar, 2);
         // Give the output stream a new image to display

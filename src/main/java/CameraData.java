@@ -30,13 +30,14 @@ public final class CameraData {
     static final int teamName=1405;
     static final String projectName="Limelight Switch V2";
     static final boolean isFront= true;
-    static final long  threadSleepTime= 70; // also controlls camera stream fps
+    static final long  threadSleepTime=35 ; // also controlls camera stream fps
     static final String cameraSwitchID="Camera Switch";
     static final String cameraSelectID="Camera";
     static final int UsbCamWidth=160;
     static final int UsbCamHeight=120;
     static final int fps=15;
     static final String serverName ="robotics01";
+    static final String camerasTypeName = "Type of Cameras";
     
   }
 
